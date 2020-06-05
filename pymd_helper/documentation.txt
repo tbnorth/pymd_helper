@@ -1,0 +1,5 @@
+<!-- Please see https://github.com/tbnorth/pymd_helper for instructions on
+     updating this projects markdown files.  `pymd_helper` is used to
+     insert/update files into markdown documentation, generate tables
+     of contents, etc.
+-->
