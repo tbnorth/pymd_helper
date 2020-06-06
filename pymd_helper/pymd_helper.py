@@ -114,12 +114,15 @@ def proc(dirent):
             args = dict(i.split('=') for i in args)
             line_i = globals()[f'proc_{cmd}'](args, old, line_i, new)
 
+    # for comparison, convert to str so ['', 'a'] and ['a', ''] match etc.
+    old = ''.join(old)
+    new = ''.join(new)
     if hits and old == new:
         print("No change")  # no output if no command comments seen (hits == 0)
     elif hits:
         print("CHANGED")
         with open(dirent, 'w') as out:  # write updated file in place
-            out.write(''.join(new))
+            out.write(new)
 
 
 if __name__ == "__main__":
