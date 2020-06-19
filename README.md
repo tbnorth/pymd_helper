@@ -17,6 +17,7 @@ Python GitHub Markdown helper - include files in markdown, table of contents, et
      - [Insert documentation about this documentation system `documentation`](#insert-documentation-about-this-documentation-system-documentation)
    - [How it works](#how-it-works)
    - [Similar tools](#similar-tools)
+   - [To do](#to-do)
 
 ## Overview
 
@@ -78,3 +79,10 @@ markdown, but provides information for people updating the markdown directly.
 ## How it works
 
 ## Similar tools
+
+## To do
+
+ - [ ] add line / regex ranges from `|insert`
+ - [ ] add docker container for zero install usage on systems with docker
+ - [ ] add tests
+ - [ ] add file recursion in `|toc` generation
