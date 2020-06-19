@@ -82,7 +82,8 @@ markdown, but provides information for people updating the markdown directly.
 
 ## To do
 
- - [ ] add line / regex ranges from `|insert`
+ - [ ] write preceding sections
+ - [ ] add line / regex ranges for `|insert`
  - [ ] add docker container for zero install usage on systems with docker
  - [ ] add tests
  - [ ] add file recursion in `|toc` generation
