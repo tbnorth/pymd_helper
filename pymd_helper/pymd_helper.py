@@ -19,7 +19,7 @@ import re
 
 # pattern used to recognize commands, basically
 # <!-- cmd_name,arg1=val1,arg2=val2 -->
-PATTERN = r'^<!-- \|\w+,?(\w+=[^,]+,?)* -->'
+PATTERN = r'^<!-- \|\w+,?(\w+[^,]+,?)* -->'
 
 
 def recurse(path=None):
@@ -45,8 +45,8 @@ def proc_insert(args, old, line_i, new):
     # the old delimiters we skip over.
     types = {
         'code': {
-            'delim': ['```{syntax}\n', '```\n'],
-            'fences': ['^```', '```'],
+            'delim': ['{addpath}```{syntax}\n', '```\n'],
+            'fences': [r"(^<div class='addpath|^```\w)", r'```\s*$'],
         },
         'comment': {
             'delim': ['<!-- ', '\n     -->\n'],
@@ -54,9 +54,22 @@ def proc_insert(args, old, line_i, new):
         },
         'documentation': {'delim': ['', ''], 'fences': ['^<!--', '-->']},
     }
+    args.setdefault('type', "code")
+    args.setdefault('syntax', "text")
     # read the documentation documentation, in this file's folder
+    if args.get('addpath'):
+        # this really only makes sense / works for `code` type insertions
+        # NOTE: needs \n\n for GitHub to recognize ``` properly
+        args['addpath'] = (
+            f"""<div class='addpath'>(<a href="{args['src']}">"""
+            f"""<i>{args['src']}</i></a>)</div>\n\n"""
+        )
+    else:
+        args['addpath'] = ""
     new.append(types[args['type']]['delim'][0].format_map(args))
-    with open(args['src']) as src:
+    with open(
+        os.path.join(os.path.dirname(args['dirent']), args['src'])
+    ) as src:
         new.extend(src)
     new.append(types[args['type']]['delim'][1].format_map(args))
     fences = [re.compile(i) for i in types[args['type']]['fences']]
@@ -111,7 +124,8 @@ def proc(dirent):
             hits += 1
             print(line.strip())
             cmd, *args = line[6:-5].split(',')
-            args = dict(i.split('=') for i in args)
+            args = dict(i.split('=') if '=' in i else (i, True) for i in args)
+            args['dirent'] = dirent  # needed for insert paths
             line_i = globals()[f'proc_{cmd}'](args, old, line_i, new)
 
     # for comparison, convert to str so ['', 'a'] and ['a', ''] match etc.

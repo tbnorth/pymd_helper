@@ -30,16 +30,24 @@ with actual code, and generate a table of contents.
 ### Insert a file `insert`
 
 ```
-    <!-- |insert,src=path/to/script.sh,type=code,syntax=shell -->
+    <!-- |insert,src=examples/script.sh,syntax=shell,addpath -->
 ```
 will insert the contents of the file `script.sh` in a markdown code block with
 `shell` syntax highlighting:
+<!-- |insert,src=examples/script.sh,syntax=shell,addpath -->
+<div class='addpath'>(<a href="examples/script.sh"><i>examples/script.sh</i></a>)</div>
+
 ```shell
 # this isn't a real script
 ARG1=$1
 cp $ARG1 /dev/null
 echo "Copy complete"
 ```
+
+The presence of the `addpath` parameter controls the presence of the
+`(examples/script.sh)` link
+preceding the code block.  `type=comment` can be added to the `|insert` command
+line to insert a `<!-- -->` comment block rather than a code block.
 
 ### Insert a table of contents `toc`
 
