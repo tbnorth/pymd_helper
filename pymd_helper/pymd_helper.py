@@ -84,7 +84,7 @@ def proc_insert(args, old, line_i, new):
 def get_link(text):
     """Turn a markdown headline in to a link, # Hello World -> hello-world"""
     return ''.join(
-        i if i == '-' or ('a' <= i <= 'z') else ''
+        i if i in '-_' or ('a' <= i <= 'z') else ''
         for i in text.lower().replace(' ', '-')
     )
 
